@@ -25,7 +25,7 @@ class BlogListView(GenericAPIView):
         return Response(BlogSerializer(blogs, many=True).data)
 
 
-class BlogItemView(CreateAPIView):
+class BlogItemView(GenericAPIView):
     serializer_class = BlogSerializer
 
     permission_classes = (AllowAny,)
