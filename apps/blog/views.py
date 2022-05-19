@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView, CreateAPIView, get_object_or_404
+from django.shortcuts import get_list_or_404
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from drf_util.decorators import serialize_decorator
@@ -33,8 +34,9 @@ class BlogItemView(GenericAPIView):
 
     def get(self, request, pk):
         blog = get_object_or_404(Blog.objects.filter(pk=pk))
+        comments = get_list_or_404(Comment.objects.filter(blog=pk))
 
-        return Response(BlogSerializer(blog).data)
+        return Response((BlogSerializer(blog).data, CommentSerializer(comments, many=True).data))
 
 
 class CreateBlogView(GenericAPIView):
